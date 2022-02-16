@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+    <script src="https://pixijs.download/release/pixi.js"></script>
+</head>
+
+<body>
+    <div>
+        <h1> SHM</h1>
+        <hr>
+        <h2>Amplitude:</h2>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="220" value="120" class="slider" id="amplitude">
+        </div>
+
+        <h2>Angular Speed</h2>
+        <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="angular_frequency">
+        </div>
+
+    </div>
+    <script>
+        AngularSlider = document.getElementById("angular_frequency");
+        AmpSlider = document.getElementById("amplitude");
+        let amplitude = 120;
+        AmpSlider.oninput = function(){
+            amplitude = this.value;
+        }
+
+        let app = new PIXI.Application({ width: 640, height: 360 });
+        document.body.appendChild(app.view);
+        let sprite = PIXI.Sprite.from('object_square.png');
+        app.stage.addChild(sprite);
+        let elapsed = 0.0;
+        let angularSpeed = 5;
+        AngularSlider.oninput = function(){
+            angularSpeed = this.value/10;
+        }
+        app.ticker.add((delta) => {
+            elapsed += delta;
+            sprite.y = 80;
+            sprite.x = 220+ amplitude * (Math.sin(angularSpeed * elapsed / 100.0));
+        })
+
+    </script>
+</body>
+<style>
+    .slidecontainer {
+        width: 100%;
+    }
+
+    .slider {
+        width: 50%;
+    }
+</style>
+
+</html>
